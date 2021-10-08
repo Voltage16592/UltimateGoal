@@ -7,14 +7,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AOpMode_SimpleElephMove", group="Linear Opmode")
-@Disabled
-public class AOpMode_SimpleElephMove extends LinearOpMode {
+@Autonomous(name="AOpMode_BlueUltimateGoal", group="Linear Opmode")
+//@Disabled
+public class AOpMode_BlueUltimateGoal extends LinearOpMode {
 
     /* Declare OpMode members. */
 
     private ElapsedTime runtime = new ElapsedTime();
     private SubSys_MecDrive mecDrive = new SubSys_MecDrive();
+    private SubSys_OneServo oneServo = new SubSys_OneServo();
 
 
 
@@ -25,6 +26,7 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
 
 
         mecDrive.init(hardwareMap);
+        oneServo.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
 
@@ -35,10 +37,16 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
         waitForStart();
         int inches;
 
-        inches = 20;
-        encoderDrive(1, inches, inches, inches, inches, 4);//Just Moves forward
-        inches = 40;
-        encoderDrive(1, -inches, inches, inches, -inches, 4);//Move Left
+        inches = -70;
+        encoderDrive(1, inches, inches, inches, inches, 5);//Just Moves Backwards
+        inches = -24;
+        encoderDrive(1, inches, -inches, -inches, inches, 4);//Move Left
+        inches = -60;
+        encoderDrive(0.5, inches, inches, inches, inches, 10);//Just Moves Backwards
+        whooshy(10);
+        inches = 50;
+        encoderDrive(1, inches, inches, inches, inches, 5);//Just Moves Forwards
+
 
     }
 
@@ -98,5 +106,23 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
             mecDrive.bright_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+
+
+    public void whooshy(double timeoutS) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            oneServo.leftWhoosh.setPower(1);
+            oneServo.rightWhoosh.setPower(-1);
+            oneServo.beltMotor.setPower(-0.5);
+            sleep(10 * 1000);
+            oneServo.leftWhoosh.setPower(0);
+            oneServo.rightWhoosh.setPower(0);
+            oneServo.beltMotor.setPower(0);
+        }
+
+    }
+
 
 }

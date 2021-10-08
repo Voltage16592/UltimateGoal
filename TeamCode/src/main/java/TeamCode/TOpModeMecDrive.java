@@ -2,11 +2,8 @@
  */
 package TeamCode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -24,15 +21,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TOpModeTankDrive", group="Iterative Opmode")
-//+@Disabled
+@TeleOp(name="TOpModeMecDrive", group="Iterative Opmode")
+//@Disabled
 
 
-public class TOpModeTankDrive extends OpMode
+public class TOpModeMecDrive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private SubSys_TankDrive tankDrive = new SubSys_TankDrive();
+    private SubSys_MecDrive mecDrive = new SubSys_MecDrive();
 
 
     /*
@@ -41,7 +38,7 @@ public class TOpModeTankDrive extends OpMode
     @Override
     public void init() {
 
-        tankDrive.init(hardwareMap);
+        mecDrive.init(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -66,7 +63,8 @@ public class TOpModeTankDrive extends OpMode
      */
     @Override
     public void loop() {
-        tankDrive.move(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        if(!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.right_bumper || gamepad1.left_bumper))
+            mecDrive.joystickDrive(-gamepad1.right_stick_y,   -gamepad1.right_stick_x, gamepad1.right_trigger, gamepad1.left_trigger);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());

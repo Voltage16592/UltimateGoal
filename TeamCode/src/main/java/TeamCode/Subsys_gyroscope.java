@@ -57,8 +57,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-public class Subsys_gyroscope extends LinearOpMode {
+public class Subsys_gyroscope {
 
     HardwareMap hardwareMap;
     double fleft_multiplier = 0.91;
@@ -69,10 +68,7 @@ public class Subsys_gyroscope extends LinearOpMode {
     SubSys_MecDrive mecDrive = new SubSys_MecDrive();
     Subsys_gyroscope(){}
 
-    @Override
-    public void runOpMode(){
-        //telemetry.addData("hello","fuckyou");
-    }
+
     public void init(HardwareMap hM) {
         this.hardwareMap = hM;
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -86,11 +82,6 @@ public class Subsys_gyroscope extends LinearOpMode {
 
         imu.initialize(parameters);
 
-        telemetry.addData("Status:", "Initialized");
-        while (!isStopRequested() && !imu.isGyroCalibrated()) {
-            sleep(50);
-            idle();
-        }
         //telemetry.addData("Mode", "waiting for start");
         //telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         //telemetry.update();

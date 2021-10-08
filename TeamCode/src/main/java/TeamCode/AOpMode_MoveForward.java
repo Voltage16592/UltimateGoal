@@ -2,14 +2,13 @@ package TeamCode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AOpMode_SimpleElephMove", group="Linear Opmode")
-@Disabled
-public class AOpMode_SimpleElephMove extends LinearOpMode {
+@Autonomous(name="AOpMode_MoveForward", group="Linear Opmode")
+//@Disabled
+public class AOpMode_MoveForward extends LinearOpMode {
 
     /* Declare OpMode members. */
 
@@ -33,17 +32,13 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        int inches;
 
-        inches = 20;
-        encoderDrive(1, inches, inches, inches, inches, 4);//Just Moves forward
-        inches = 40;
-        encoderDrive(1, -inches, inches, inches, -inches, 4);//Move Left
+        encoderDrive(1, -70, -70, 10);//Just Moves forward
 
     }
 
     public void encoderDrive(double speed,
-                             double fleftInches, double frightInches, double bleftInches, double brightInches,
+                             double leftInches, double rightInches,
                              double timeoutS) {
 
         // Ensure that the opmode is still active
@@ -54,10 +49,10 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
             mecDrive.bleft_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             mecDrive.bright_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            mecDrive.fleft_drive.setTargetPosition((int) (fleftInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
-            mecDrive.fright_drive.setTargetPosition((int) (frightInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
-            mecDrive.bleft_drive.setTargetPosition((int) (bleftInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
-            mecDrive.bright_drive.setTargetPosition((int) (brightInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
+            mecDrive.fleft_drive.setTargetPosition((int) (leftInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
+            mecDrive.fright_drive.setTargetPosition((int) (rightInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
+            mecDrive.bleft_drive.setTargetPosition((int) (leftInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
+            mecDrive.bright_drive.setTargetPosition((int) (rightInches * mecDrive.COUNTS_PER_INCH * mecDrive.Adjust));
 
             // Turn On RUN_TO_POSITION
             mecDrive.fleft_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -68,10 +63,10 @@ public class AOpMode_SimpleElephMove extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            mecDrive.fleft_drive.setPower(Math.abs(speed)*(Math.abs(fleftInches)/fleftInches));
-            mecDrive.fright_drive.setPower(Math.abs(speed)*(Math.abs(frightInches)/frightInches));
-            mecDrive.bleft_drive.setPower(Math.abs(speed)*(Math.abs(bleftInches)/bleftInches));
-            mecDrive.bright_drive.setPower(Math.abs(speed)*(Math.abs(brightInches)/brightInches));
+            mecDrive.fleft_drive.setPower(Math.abs(speed));
+            mecDrive.fright_drive.setPower(Math.abs(speed));
+            mecDrive.bleft_drive.setPower(Math.abs(speed));
+            mecDrive.bright_drive.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

@@ -16,7 +16,7 @@ public class SubSys_MecDrive {
     DcMotor bleft_drive;//back left motor
     DcMotor bright_drive;//back left motor
     private double precisionSpeed = 0.251 ;
-    double fleft_multiplier = 0.95;
+    double fleft_multiplier = 1;
     HardwareMap hardwareMap;
     static final double COUNTS_PER_MOTOR_REV = 2240;    // eg: TETRIX Motor Encoder
     static final double WHEEL_DIAMETER_INCHES = 3.5;     // For figuring circumference
